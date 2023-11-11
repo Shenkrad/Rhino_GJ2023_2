@@ -51,7 +51,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void RandomSpawnObjects();
 	UFUNCTION()
-		void RequestFruitRespawn(ARhino_Fruit* CollectedFruit); 
+		void RequestFruitRespawn(ARhino_Fruit* CollectedFruit);
 	UFUNCTION()
 		void RequestWallDestroy(ARhino_BreakableWall* DestroyedWall);
 
@@ -63,9 +63,14 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void Check_WinCondition(ARhino_Door* RequestingDoor);
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 		void Init_GameWin();
 
+	UFUNCTION(Blueprintcallable)
+		FString GetTimerFormat() { return TimerFormat; };
+
+	UFUNCTION(Blueprintcallable)
+		FString GetKillerCountFormat() { return KillCountFormat; };
 
 protected:
 
@@ -106,6 +111,14 @@ protected:
 	UPROPERTY()
 		ARhino_HUD* HUD;
 
+	UPROPERTY()
+	FTimerHandle TimerHandle_Timer;
+
+	UPROPERTY()
+	FString TimerFormat;
+
+	UPROPERTY()
+		FString KillCountFormat;
 };
 
 

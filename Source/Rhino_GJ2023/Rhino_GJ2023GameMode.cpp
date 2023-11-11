@@ -229,8 +229,8 @@ void ARhino_GJ2023GameMode::InitializeTimer()
 		HUD = Cast<ARhino_HUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
 	}
 
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ARhino_GJ2023GameMode::SetUITimer, 1.f, true);
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle_Timer, this, &ARhino_GJ2023GameMode::SetUITimer, 1.f, true);
 }
 
 void ARhino_GJ2023GameMode::SetUITimer()
@@ -254,6 +254,7 @@ void ARhino_GJ2023GameMode::SetUITimer()
 		FString Hours = FString::Printf(TEXT("%02i"), FMath::Abs(Time.Hours));
 		FString Format = FString::Printf(TEXT("%s:%s:%s"), *Hours, *Minutes, *Seconds);
 		HUD->SetTimer(Format);
+		TimerFormat = TEXT("Time: ") + Format;
 	}
 }
 
@@ -272,6 +273,7 @@ void ARhino_GJ2023GameMode::SetKillCountUI(int32 KillCount)
 	{
 		FString Format = FString::Printf(TEXT("Kills: %02i"), FMath::Abs(KillCount));
 		HUD->SetKillCount(Format);
+		KillCountFormat = TEXT("Citizen ") + Format;
 	}
 }
 
@@ -287,7 +289,8 @@ void ARhino_GJ2023GameMode::Check_WinCondition(ARhino_Door* RequestingDoor)
 	}
 }
 
-void ARhino_GJ2023GameMode::Init_GameWin()
+void ARhino_GJ2023GameMode::Init_GameWin_Implementation()
 {
-	ResetLevel();
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle_Timer);
+	//UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("WinMap")));
 }

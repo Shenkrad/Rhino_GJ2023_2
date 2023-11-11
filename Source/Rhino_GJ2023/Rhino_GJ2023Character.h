@@ -55,6 +55,9 @@ public:
 	*/
 	void UpdateKillCount(int32 AddKill);
 
+	UFUNCTION(BlueprintCallable)
+	int32 GetKillCount() { return KillCount; };
+
 private:
 
 
