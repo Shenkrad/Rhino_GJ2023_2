@@ -40,6 +40,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* DashAction;
 
+	/* Rotate Cam Left Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* RotateCamLeft;
+
+	/* Rotate Cam Right Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* RotateCamRight;
+
 	// /* Keyboard Movement Input */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* KeyboardMovement;
@@ -65,10 +73,17 @@ protected:
 	void OnDashTriggered();
 	void CharacterMovement(const FInputActionValue &Value);
 
+	/* Input handlers for cam rotation. */
+	void OnRotateCamLeft();
+	void OnRotateCamRight();
+
 private:
 	// FVector CachedDestination;
 	
 	FTimerHandle DashTimerHandle;
+
+	// Rotation modifier if camera is rotated to match the player
+	FRotator RotationModifier = FRotator::ZeroRotator;
 
 	// float FollowTime; // For how long it has been pressed
 

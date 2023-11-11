@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
+#include "GameFramework/SpringArmComponent.h"
 
 #include "Rhino_GJ2023Character.h"
 
@@ -51,6 +52,10 @@ void ARhino_GJ2023PlayerController::SetupInputComponent()
 
 		// Setup dash event
 		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Started, this, &ARhino_GJ2023PlayerController::OnDashTriggered);
+
+		// Cam Rotation events
+		EnhancedInputComponent->BindAction(RotateCamLeft, ETriggerEvent::Started, this, &ARhino_GJ2023PlayerController::OnRotateCamLeft);
+		EnhancedInputComponent->BindAction(RotateCamRight, ETriggerEvent::Started, this, &ARhino_GJ2023PlayerController::OnRotateCamRight);
 
 		// Setup keyboard movement events
 		EnhancedInputComponent->BindAction(KeyboardMovement, ETriggerEvent::Triggered, this, &ARhino_GJ2023PlayerController::CharacterMovement);
@@ -127,7 +132,8 @@ void ARhino_GJ2023PlayerController::OnStopDashing()
 
 void ARhino_GJ2023PlayerController::CharacterMovement(const FInputActionValue &Value)
 {
-	const FVector2D MoveVector = Value.Get<FVector2D>();
+	FVector2D MoveVector = Value.Get<FVector2D>();
+	MoveVector = MoveVector.GetRotated(RotationModifier.Yaw);
 	const FRotator MoveRotation(0.f, GetControlRotation().Yaw, 0.f);
 
 	// If movement is left or right direction
@@ -143,4 +149,20 @@ void ARhino_GJ2023PlayerController::CharacterMovement(const FInputActionValue &V
 		const FVector Direction = MoveRotation.RotateVector(FVector::ForwardVector);
 		ControlledCharacter->AddMovementInput(Direction, MoveVector.Y);
 	}
+}
+
+void ARhino_GJ2023PlayerController::OnRotateCamLeft()
+{
+	USpringArmComponent* CameraBoom = ControlledCharacter->GetCameraBoom();
+	FRotator CameraRotation = CameraBoom->GetRelativeRotation();
+	CameraBoom->SetRelativeRotation(CameraRotation + FRotator(0, 90.f, 0));
+	RotationModifier -= FRotator(0, 90.f, 0);
+}
+
+void ARhino_GJ2023PlayerController::OnRotateCamRight()
+{
+	USpringArmComponent* CameraBoom = ControlledCharacter->GetCameraBoom();
+	FRotator CameraRotation = CameraBoom->GetRelativeRotation();
+	CameraBoom->SetRelativeRotation(CameraRotation - FRotator(0.f, 90.f, 0.f));
+	RotationModifier += FRotator(0, 90.f, 0);
 }
