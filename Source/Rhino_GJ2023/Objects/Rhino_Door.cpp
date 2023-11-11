@@ -47,8 +47,8 @@ void ARhino_Door::DeSpawnDoor()
 	if (Model)
 	{
 		Model->SetVisibility(false, true);
-		Model->SetCollisionProfileName(FName(TEXT("NoCollision")));
-		Model->Deactivate();
+		Model->SetCollisionProfileName(FName(TEXT("OverlapAll")));
+		//Model->Deactivate();
 	}
 }
 

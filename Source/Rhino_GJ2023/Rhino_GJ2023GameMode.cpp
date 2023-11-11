@@ -102,7 +102,7 @@ void ARhino_GJ2023GameMode::ScanAllObjects()
 		{
 			if (ARhino_Door* Door = Cast<ARhino_Door>(Generic[i]))
 			{
-				Door->DeSpawnDoor();
+				Door->SpawnDoor();
 				InactiveDoors.Add(Door);
 			}
 		}
@@ -167,7 +167,7 @@ void ARhino_GJ2023GameMode::RandomSpawnObjects()
 		int32 Seed = FMath::RandRange(0, InactiveDoors.Num() - 1);
 		if (InactiveDoors.IsValidIndex(Seed) && InactiveDoors[Seed] != nullptr)
 		{
-			InactiveDoors[Seed]->SpawnDoor();
+			InactiveDoors[Seed]->DeSpawnDoor();
 			ActiveDoors.Add(InactiveDoors[Seed]);
 			InactiveDoors.RemoveAt(Seed);
 		}
