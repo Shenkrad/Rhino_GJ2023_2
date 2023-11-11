@@ -41,19 +41,16 @@ void ARhino_NPCCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 void ARhino_NPCCharacter::OnCapsuleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, 
 		UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	ARhino_GJ2023Character* MainCharacter = Cast<ARhino_GJ2023Character>(OtherActor);
+	/*ARhino_GJ2023Character* MainCharacter = Cast<ARhino_GJ2023Character>(OtherActor);
 	if (MainCharacter == nullptr) return;
 
-	Die(MainCharacter);
+	Die(MainCharacter);*/
 }
 
-void ARhino_NPCCharacter::Die(ARhino_GJ2023Character* MainCharacter)
+void ARhino_NPCCharacter::Die()
 {	
-	if (MainCharacter->GetIsDashing())
-	{
-		GetMesh()->SetSimulatePhysics(true);
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		DetachFromControllerPendingDestroy();
-	}
+	GetMesh()->SetSimulatePhysics(true);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	DetachFromControllerPendingDestroy();
 }
 

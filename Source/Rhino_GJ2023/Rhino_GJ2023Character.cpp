@@ -17,6 +17,7 @@
 #include "Objects/Rhino_Fruit.h"
 #include "Objects/Rhino_Door.h"
 #include "Rhino_GJ2023GameMode.h"
+#include "IA/Rhino_NPCCharacter.h"
 
 ARhino_GJ2023Character::ARhino_GJ2023Character()
 {
@@ -101,6 +102,13 @@ void ARhino_GJ2023Character:: OnBoxCollisionBeginOverlap(UPrimitiveComponent* Ov
 	if (Door != nullptr)
 	{
 		Door->Request_WinCheck();
+	}
+
+	ARhino_NPCCharacter* NPC = Cast<ARhino_NPCCharacter>(OtherActor);
+	if (NPC != nullptr && bIsDashing)
+	{
+		NPC->Die();
+		UpdateKillCount(1);
 	}
 }
 
